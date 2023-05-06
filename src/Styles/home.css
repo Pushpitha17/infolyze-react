@@ -1,0 +1,58 @@
+.homepage {
+    height: calc(100vh - 80px);
+    width: 100vw;
+    display: grid;
+    grid-template-rows: auto 150px;
+  }
+  
+  .banner-section {
+    background-image: url("../../public/assets/img/solid-navy-blue-concrete-textured-wall.jpg");
+    color: #ffffff;
+  }
+  
+  .title-main {
+    display: flex;
+    justify-content: center;
+    padding: 35px;
+    font-size: 30px;
+  }
+  
+  .banner-btn {
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .banner-btn:hover {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+  }
+  
+  .banner-content-container {
+    height: 100%;
+    display: grid;
+    place-items: center;
+  }
+  
+  .banner-content {
+    text-align: center;
+  }
+  
+  
+  .banner-text {
+    padding-bottom: 30px;
+  }
+  
+  
+  .sub-text{
+    display: flex;
+    justify-content: center;
+    padding: 35px;
+    font-size: 30px;
+    font-weight: 600;
+  }
