@@ -14,6 +14,7 @@
     display: flex;
     justify-content: center;
     padding: 35px;
+    font-weight: 600;
     font-size: 30px;
   }
   
@@ -55,4 +56,22 @@
     padding: 35px;
     font-size: 30px;
     font-weight: 600;
+  }
+
+  .footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .footer p {
+    margin-bottom: 0;
+  }
+
+  .about-section{
+    padding-top: 50px;
+  }
+
+  .title-1{
+    background-color: #EEEEEE;
   }

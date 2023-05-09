@@ -21,55 +21,59 @@ function TextForm() {
     e.preventDefault();
     setSubmitted(true);
 
-    // let res = await fetch('http://localhost:8000/check-news/' ,{
-    //   method : "POST",
-    //   body: JSON.stringify({
-    //     news : text
-    //   })
-    // })
+    let res = await fetch('http://localhost:8000/check-news/' ,{
+      method : "POST",
+      body: JSON.stringify({
+        news : text
+      })
+    })
 
-    // res = res.json()
 
-    // const returnArr = res.Lime.values
+    res = res.json()
+    console.log("I'm here")
+    console.log(res)
 
-    const returnArr = [
-      {
-        word: "papa",
-        value: -0.3841891428908649,
-      },
-      {
-        word: "founder",
-        value: -0.47777590215789663,
-      },
-      {
-        word: "john",
-        value: -0.67308782292357992,
-      },
-      {
-        word: "business",
-        value: -0.06862975601143952,
-      },
-      {
-        word: "retires",
-        value: 0.06019043104569669,
-      },
-      {
-        word: "bad",
-        value: -0.043811069909434903,
-      },
-      {
-        word: "figures",
-        value: 0.02393625461356164,
-      },
-      {
-        word: "racism",
-        value: -0.005205899517261152,
-      },
-      {
-        word: "s",
-        value: -0.00017025556405283424,
-      },
-    ];
+    const returnArr = res["Lime"]["values"]
+    
+
+    // const returnArr = [
+    //   {
+    //     word: "papa",
+    //     value: -0.3841891428908649,
+    //   },
+    //   {
+    //     word: "founder",
+    //     value: -0.47777590215789663,
+    //   },
+    //   {
+    //     word: "john",
+    //     value: -0.67308782292357992,
+    //   },
+    //   {
+    //     word: "business",
+    //     value: -0.06862975601143952,
+    //   },
+    //   {
+    //     word: "retires",
+    //     value: 0.06019043104569669,
+    //   },
+    //   {
+    //     word: "bad",
+    //     value: -0.043811069909434903,
+    //   },
+    //   {
+    //     word: "figures",
+    //     value: 0.02393625461356164,
+    //   },
+    //   {
+    //     word: "racism",
+    //     value: -0.005205899517261152,
+    //   },
+    //   {
+    //     word: "s",
+    //     value: -0.00017025556405283424,
+    //   },
+    // ];
 
     setOutput(returnArr);
   };
@@ -91,6 +95,7 @@ function TextForm() {
           <Form.Control
             as="textarea"
             rows={5}
+            placeholder="මෙම කොටුව තුළ ඔබගේ සිංහල වාක්‍යය යොදන්න"
             value={text}
             onChange={handleTextChange}
           />
