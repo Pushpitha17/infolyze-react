@@ -40,7 +40,11 @@ function TextForm() {
     const returnArr = res["Lime"]["values"];
     const impact = res["impact"];
 
-    setIsfake(impact);
+    if (impact == "Fake") {
+      setIsfake(true);
+    } else {
+      setIsfake(false);
+    }
     setOutput(returnArr);
     setLoading(false);
   };
@@ -95,16 +99,17 @@ function TextForm() {
             )
           : null}
         <div className="btn-submit text-center p-3">
-          {!submitted ? (
+          {!submitted && !loading && (
             <Button
               variant="secondary"
               className="btn align-center"
               type="submit"
               onClick={handleSubmit}
             >
-              {!loading ? "Detect" : <Spinner animation="border" />}
+              Detect
             </Button>
-          ) : null}
+          )}
+          {submitted && loading && <Spinner animation="border" />}
           {submitted && !loading ? (
             <Button
               variant="danger"
