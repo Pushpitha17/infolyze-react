@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 import "../Styles/textform.css";
+import Alert from "react-bootstrap/Alert";
 
 const positive_color = "142, 68, 173";
 const negative_color = "241, 196, 15";
@@ -11,6 +13,8 @@ function TextForm() {
   const [submitted, setSubmitted] = useState(false);
   const [text, setText] = useState("");
   const [output, setOutput] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [isFake, setIsfake] = useState(null);
 
   const handleTextChange = (e) => {
     setText(e.target.value);
@@ -20,62 +24,25 @@ function TextForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
+    setLoading(true);
 
-    let res = await fetch('http://localhost:8000/check-news/' ,{
-      method : "POST",
+    let res = await fetch("http://localhost:8000/check-news/", {
+      method: "POST",
       body: JSON.stringify({
-        news : text
-      })
-    })
+        news: text,
+      }),
+    });
 
+    res = res.json();
+    console.log("I'm here");
+    console.log(res);
 
-    res = res.json()
-    console.log("I'm here")
-    console.log(res)
+    const returnArr = res["Lime"]["values"];
+    const impact = res["impact"];
 
-    const returnArr = res["Lime"]["values"]
-    
-
-    // const returnArr = [
-    //   {
-    //     word: "papa",
-    //     value: -0.3841891428908649,
-    //   },
-    //   {
-    //     word: "founder",
-    //     value: -0.47777590215789663,
-    //   },
-    //   {
-    //     word: "john",
-    //     value: -0.67308782292357992,
-    //   },
-    //   {
-    //     word: "business",
-    //     value: -0.06862975601143952,
-    //   },
-    //   {
-    //     word: "retires",
-    //     value: 0.06019043104569669,
-    //   },
-    //   {
-    //     word: "bad",
-    //     value: -0.043811069909434903,
-    //   },
-    //   {
-    //     word: "figures",
-    //     value: 0.02393625461356164,
-    //   },
-    //   {
-    //     word: "racism",
-    //     value: -0.005205899517261152,
-    //   },
-    //   {
-    //     word: "s",
-    //     value: -0.00017025556405283424,
-    //   },
-    // ];
-
+    setIsfake(impact);
     setOutput(returnArr);
+    setLoading(false);
   };
 
   const handleClear = (e) => {
@@ -83,9 +50,9 @@ function TextForm() {
     setOutput([]);
     setText("");
     setSubmitted(false);
+    setIsfake(null);
+    setLoading(false);
   };
-
-  console.log(submitted);
 
   return (
     <Container className="text-area">
@@ -100,24 +67,33 @@ function TextForm() {
             onChange={handleTextChange}
           />
         </Form.Group>
-        {submitted ? (
-          <div>
-            {output.map((item, i) => (
-              <span
-                key={i}
-                style={{
-                  marginLeft: "5px",
-                  padding: "0 2px",
-                  backgroundColor: `rgba(${
-                    item.value > 0 ? positive_color : negative_color
-                  }, ${Math.abs(item.value)})`,
-                }}
-              >
-                {item.word}
-              </span>
-            ))}
-          </div>
-        ) : null}
+        {submitted
+          ? output && (
+              <>
+                <div>
+                  <Alert variant={isFake ? "danger" : "success"}>
+                    This is a {isFake ? "Fake" : "Real"} News!
+                  </Alert>
+                </div>
+                <div>
+                  {output.map((item, i) => (
+                    <span
+                      key={i}
+                      style={{
+                        marginLeft: "5px",
+                        padding: "0 2px",
+                        backgroundColor: `rgba(${
+                          item.value > 0 ? positive_color : negative_color
+                        }, ${Math.abs(item.value) / 100})`,
+                      }}
+                    >
+                      {item.word}
+                    </span>
+                  ))}
+                </div>
+              </>
+            )
+          : null}
         <div className="btn-submit text-center p-3">
           {!submitted ? (
             <Button
@@ -126,7 +102,7 @@ function TextForm() {
               type="submit"
               onClick={handleSubmit}
             >
-              Detect
+              {!loading ? "Detect" : <Spinner animation="border" />}
             </Button>
           ) : (
             <Button
