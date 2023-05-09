@@ -12,7 +12,7 @@ const negative_color = "241, 196, 15";
 function TextForm() {
   const [submitted, setSubmitted] = useState(false);
   const [text, setText] = useState("");
-  const [output, setOutput] = useState([]);
+  const [output, setOutput] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isFake, setIsfake] = useState(null);
 
@@ -33,7 +33,7 @@ function TextForm() {
       }),
     });
 
-    res = res.json();
+    res = await res.json();
     console.log("I'm here");
     console.log(res);
 
@@ -47,7 +47,7 @@ function TextForm() {
 
   const handleClear = (e) => {
     e.preventDefault();
-    setOutput([]);
+    setOutput(null);
     setText("");
     setSubmitted(false);
     setIsfake(null);
@@ -104,7 +104,8 @@ function TextForm() {
             >
               {!loading ? "Detect" : <Spinner animation="border" />}
             </Button>
-          ) : (
+          ) : null}
+          {submitted && !loading ? (
             <Button
               variant="danger"
               className="btn align-center"
@@ -112,7 +113,7 @@ function TextForm() {
             >
               Clear
             </Button>
-          )}
+          ) : null}
         </div>
       </Form>
     </Container>
